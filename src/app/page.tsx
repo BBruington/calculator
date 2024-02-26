@@ -27,19 +27,17 @@ export default function Home() {
   const [firstValue, setFirstValue] = useState("");
   const [operator, setOperator] = useState("");
   const [secondValue, setSecondValue] = useState("");
-  const [answer, setAnswer] = useState<null | number>(null);
   const calculatorInput = `${firstValue} ${operator} ${secondValue}`;
   const handleCalculatorInput = (name: input) => {
     if (name.type === "equals") {
       if (operator === "+")
-        setAnswer(Number(firstValue) + Number(secondValue));
+        setFirstValue((Number(firstValue) + Number(secondValue)).toString());
       if (operator === "-")
-        setAnswer(Number(firstValue) - Number(secondValue));
+        setFirstValue((Number(firstValue) - Number(secondValue)).toString());
       if (operator === "*")
-        setAnswer(Number(firstValue) * Number(secondValue));
+        setFirstValue((Number(firstValue) * Number(secondValue)).toString());
       if (operator === "/")
-        setAnswer(Number(firstValue) / Number(secondValue));
-        setFirstValue("");
+        setFirstValue((Number(firstValue) / Number(secondValue)).toString());
         setSecondValue("");
         setOperator("");
       return;
@@ -48,7 +46,6 @@ export default function Home() {
       setFirstValue("");
       setSecondValue("");
       setOperator("");
-      setAnswer(null);
       return;
     }
     if (name.type === "operator" && firstValue !== "") {
@@ -56,7 +53,6 @@ export default function Home() {
     }
     if (name.type === "number") {
       if (operator === "") {
-        setAnswer(null);
         setFirstValue(firstValue + name.value);
       } else {
         setSecondValue(secondValue + name.value);
@@ -67,7 +63,7 @@ export default function Home() {
     <main className="flex flex-col items-center m-10">
       <input
         className="text-black justify-center text-center"
-        value={answer ? answer : calculatorInput}
+        value={calculatorInput}
         readOnly
       />
       <div className="grid grid-cols-4">
