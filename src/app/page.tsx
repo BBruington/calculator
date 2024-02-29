@@ -28,9 +28,8 @@ export default function Home() {
   const [operator, setOperator] = useState("");
   const [secondValue, setSecondValue] = useState("");
   const calculatorInput = `${firstValue} ${operator} ${secondValue}`;
-  const handleCalculatorInput = (name: input) => {
-    if (name.type === "equals") {
-      if (operator === "+")
+  const calculateSolution = () => {
+    if (operator === "+")
         setFirstValue((Number(firstValue) + Number(secondValue)).toString());
       if (operator === "-")
         setFirstValue((Number(firstValue) - Number(secondValue)).toString());
@@ -38,9 +37,13 @@ export default function Home() {
         setFirstValue((Number(firstValue) * Number(secondValue)).toString());
       if (operator === "/")
         setFirstValue((Number(firstValue) / Number(secondValue)).toString());
-        setSecondValue("");
-        setOperator("");
+      setSecondValue("");
+      setOperator("");
       return;
+  }
+  const handleCalculatorInput = (name: input) => {
+    if (name.type === "equals") {
+      calculateSolution();
     }
     if (name.type === "clear") {
       setFirstValue("");
@@ -49,11 +52,14 @@ export default function Home() {
       return;
     }
     if (name.type === "operator" && firstValue !== "") {
+      if(operator !== '' && secondValue !== '') calculateSolution()
       setOperator(name.value);
+      return;
     }
     if (name.type === "number") {
       if (operator === "") {
         setFirstValue(firstValue + name.value);
+        return;
       } else {
         setSecondValue(secondValue + name.value);
       }
